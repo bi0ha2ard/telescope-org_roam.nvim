@@ -42,8 +42,16 @@ local make_entry = function(opts)
 
   return function(entry)
     local lnum = entry.line
+    -- if it's the file and not a headline
+    if entry.level == 0 and entry.line == 1 then
+      lnum = 0
+    end
     local location = vim.fn.fnamemodify(entry.filename, ':t')
-    local line = string.format('%s %s', string.rep('*', entry.level), entry.title)
+    local prefix = ""
+    if entry.level > 0 then
+      prefix = string.rep('*', entry.level) .. " "
+    end
+    local line = string.format('%s%s', prefix, entry.title)
     local tags = table.concat(entry.tags, ":")
 
     return {
