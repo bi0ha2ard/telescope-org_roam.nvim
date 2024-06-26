@@ -3,8 +3,6 @@ local finders = require('telescope.finders')
 local entry_display = require('telescope.pickers.entry_display')
 local conf = require('telescope.config').values
 
-local roam = require('org-roam')
-local org = require('orgmode.api')
 
 local utils = require('telescope-org-roam.utils')
 
@@ -20,6 +18,8 @@ local link_type_to_symbol = function(t)
 end
 
 local get_links = function(opts)
+  local roam = utils.roam()
+  local org = utils.org()
   local file = opts.file or vim.api.nvim_buf_get_name(0)
   local nodes = {}
   local nodes_in_file = roam.database:find_nodes_by_file_sync(file)

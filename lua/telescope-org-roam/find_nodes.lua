@@ -3,11 +3,10 @@ local finders = require('telescope.finders')
 local entry_display = require('telescope.pickers.entry_display')
 local conf = require('telescope.config').values
 
-local roam = require('org-roam')
-
 local utils = require('telescope-org-roam.utils')
 
 local get_entries = function(opts)
+  local roam = utils.roam()
   local ids = roam.database:ids()
   local nodes = {}
 

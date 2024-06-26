@@ -10,4 +10,21 @@ M.as_entry = function(title, node)
   }
 end
 
+local roam = nil
+local org = nil
+
+M.roam = function()
+  if not roam then
+    roam = require('org-roam')
+  end
+  return roam
+end
+
+M.org = function()
+  if not org then
+    org = require('orgmode.api')
+  end
+  return org
+end
+
 return M
