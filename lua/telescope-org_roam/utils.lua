@@ -13,6 +13,7 @@ end
 local roam = nil
 local org = nil
 
+-- lazy loading to not block nvim startup
 M.roam = function()
   if not roam then
     roam = require('org-roam')

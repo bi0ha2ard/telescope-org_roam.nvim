@@ -4,7 +4,7 @@ local entry_display = require('telescope.pickers.entry_display')
 local conf = require('telescope.config').values
 
 
-local utils = require('telescope-org-roam.utils')
+local utils = require('telescope-org_roam.utils')
 
 local TYPE_LINK = 0
 local TYPE_BACKLINK = 1
@@ -74,15 +74,17 @@ local make_entry = function(opts)
   return function(entry)
     local lnum = entry.line
     local location = vim.fn.fnamemodify(entry.file, ':t')
+    if entry.level > 0 then
+      location = string.format("%s:%i", location, lnum)
+    end
     local line = (entry.level > 0 and string.format('%s %s', string.rep('*', entry.level), entry.title) or entry.title)
     local tags = table.concat(entry.tags, ":")
 
     return {
       value = entry,
-      ordinal = entry.title .. ' ' .. tags .. ' ' .. location,
+      ordinal = tags .. ' ' .. line .. ' ' .. location,
       filename = entry.file,
       lnum = lnum,
-      context = 1,
       display = make_display,
       location = location,
       line = line,

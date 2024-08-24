@@ -3,7 +3,7 @@ local finders = require('telescope.finders')
 local entry_display = require('telescope.pickers.entry_display')
 local conf = require('telescope.config').values
 
-local utils = require('telescope-org-roam.utils')
+local utils = require('telescope-org_roam.utils')
 
 local get_entries = function(opts)
   local roam = utils.roam()
@@ -46,16 +46,15 @@ local make_entry = function(opts)
       lnum = 0
     end
     local location = vim.fn.fnamemodify(entry.filename, ':t')
-    local prefix = ""
     if entry.level > 0 then
-      prefix = string.rep('*', entry.level) .. " "
+      location = string.format("%s:%i", location, lnum)
     end
-    local line = string.format('%s%s', prefix, entry.title)
+    local line = (entry.level > 0 and string.format('%s %s', string.rep('*', entry.level), entry.title) or entry.title)
     local tags = table.concat(entry.tags, ":")
 
     return {
       value = entry,
-      ordinal = entry.title .. ' ' .. tags .. ' '.. location,
+      ordinal = tags .. ' ' .. line .. ' ' .. location,
       filename = entry.file,
       lnum = lnum,
       display = make_display,
@@ -71,7 +70,7 @@ return function(opts)
 
   pickers
       .new(opts, {
-        prompt_title = 'Search Node',
+        prompt_title = 'Find Node',
         finder = finders.new_table({
           results = get_entries(opts),
           entry_maker = opts.entry_maker or make_entry(opts),
