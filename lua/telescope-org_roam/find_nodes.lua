@@ -63,7 +63,7 @@ local make_entry = function(opts)
     local lnum = entry.line
     -- if it's the file and not a headline
     if entry.level == 0 and entry.line == 1 then
-      lnum = 0
+      lnum = 1
     end
     local location = vim.fn.fnamemodify(entry.filename, ':t')
     if entry.level > 0 then
