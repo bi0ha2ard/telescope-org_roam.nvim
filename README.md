@@ -38,6 +38,14 @@ Both:
 :Telescope org_roam links links=true backlinks=true
 ```
 
+## Filtering nodes
+
+Only find nodes that include one of the given tags:
+
+```
+:Telescope org_roam find_files tags=this,that
+```
+
 ## Missing features
 
 - Insert node

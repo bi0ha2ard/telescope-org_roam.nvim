@@ -5,14 +5,30 @@ local conf = require('telescope.config').values
 
 local utils = require('telescope-org_roam.utils')
 
+local include_node = function(node, tags)
+  if vim.tbl_isempty(tags) then
+    return true
+  end
+  for _, tag in ipairs(node.tags) do
+    if vim.tbl_contains(tags, tag) then
+      return true
+    end
+  end
+  return false
+end
+
 local get_entries = function(opts)
   local roam = utils.roam()
+  local tags = {}
+  if opts.tags then
+    tags = vim.split(opts.tags, ",")
+  end
   local ids = roam.database:ids()
   local nodes = {}
 
   for _, id in ipairs(ids) do
     local node = roam.database:get_sync(id)
-    if node then
+    if node and include_node(node, tags) then
       table.insert(nodes, utils.as_entry(node.title, node))
       for _, alias in ipairs(node.aliases) do
         if alias ~= node.title then
