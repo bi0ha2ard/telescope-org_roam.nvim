@@ -6,7 +6,8 @@ M.as_entry = function(title, node)
     file = node.file,
     level = node.level,
     tags = node.tags,
-    line = node.range.start.row + 1
+    line = node.range.start.row + 1,
+    mtime = node.mtime
   }
 end
 

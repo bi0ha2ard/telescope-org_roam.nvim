@@ -37,7 +37,11 @@ local get_entries = function(opts)
       end
     end
   end
-  table.sort(nodes, function(a, b) return string.lower(a.title) > string.lower(b.title) end)
+  if opts.sort_by_time then
+    table.sort(nodes, function(a, b) return a.mtime > b.mtime end)
+  else
+    table.sort(nodes, function(a, b) return string.lower(a.title) > string.lower(b.title) end)
+  end
   return nodes
 end
 
